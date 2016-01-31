@@ -1,0 +1,33 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div.main {
+	max-width: 700px;
+	margin: 0 auto;
+  select#guests{
+    width: 300px;
+  }
+  
+  .help-block{
+    color: #a94442;
+  }
+}
+#pac-input{
+  width: 400px;
+  height: 35px;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+#map{
+  width: 700px;
+  height: 400px;
+}
