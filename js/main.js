@@ -15,6 +15,25 @@ function checkGuestPresence(){
   }
 }
 
+function checkWholeValidations(){
+  var name = $('input#eventName').val();
+  var type = $('input#eventType').val();
+  var host = $('input#eventHost').val();
+  var startDate = $('input#start_date').val();
+  var endDate = $('input#end_date').val();
+  var guests = $('#guests').val();
+  var location = $('#pac-input').val();
+  var memo = $('input#memo').val();
+
+  checkValidation($('input#eventName'));
+  checkValidation($('input#eventType'));
+  checkValidation($('input#eventHost'));
+  checkValidation($('input#start_date'));
+  checkValidation($('input#end_date'));
+  checkGuestPresence();
+  checkLocation();
+
+}
 function checkLocation(){
   var address = $('#pac-input').val();
   if (address === ""){
@@ -23,33 +42,16 @@ function checkLocation(){
 }
 $(function () {
   var dateNow = new Date();
-  // $('#start_date, #end_date').datetimepicker({ defaultDate: dateNow});
-  // var dateTomorrow = dateNow.setDate(dateNow.getTime() + 60*60*1000); 
+  hourNow = dateNow.getHours();
+  var OneHourLater = new Date(dateNow);
+  OneHourLater.setHours(hourNow + 1); 
   $('#start_date').datetimepicker({ minDate: dateNow, defaultDate: dateNow , stepping: 30, sideBySide: true}); 
-  $('#end_date').datetimepicker({ minDate: dateNow, defaultDate: dateNow, stepping: 30, sideBySide: true }); 
+  $('#end_date').datetimepicker({ minDate: dateNow, defaultDate: OneHourLater, stepping: 30, sideBySide: true }); 
   $("#guests").select2();
 
-  // google.maps.event.addDomListener(window, 'load', initMap);
-
-  // google.maps.event.addDomListener(window, 'load', initializeGoogleMap);
 
   $('button#submit').on('click', function(event){
-    var name = $('input#eventName').val();
-    var type = $('input#eventType').val();
-    var host = $('input#eventHost').val();
-    var startDate = $('input#start_date').val();
-    var endDate = $('input#end_date').val();
-    var guests = $('#guests').val();
-    var location = $('#pac-input').val();
-    var memo = $('input#memo').val();
-
-    checkValidation($('input#eventName'));
-    checkValidation($('input#eventType'));
-    checkValidation($('input#eventHost'));
-    checkValidation($('input#start_date'));
-    checkValidation($('input#end_date'));
-    checkGuestPresence();
-    checkLocation();
+    checkWholeValidations();
     eventsRef.push({ name: name, type: type, host: host, startDate: startDate, endDate: endDate, guests: guests, location: location, memo: memo})
     // window.location.href = "/event_form"
   });
