@@ -10,7 +10,7 @@ require('es6-promise').polyfill();
 
 gulp.task('default', ['styles', 'js', 'css'], function() {
 	gulp.watch('sass/**/*.scss', ['styles']);
-  gulp.watch('dist/js/*.js', ['js']);
+  gulp.watch('js/*.js', ['js']);
 	// gulp.watch('js/**/*.js', ['lint']);
 
 	browserSync.init({
@@ -33,7 +33,8 @@ gulp.task('js', function(){
     paths.datetimepicker + 'bootstrap-datetimepicker.min.js',
   ])
   .pipe(concat("libs.js"))
-  .pipe(gulp.dest('dist/js'));
+  .pipe(gulp.dest('dist/js'))
+  .pipe(browserSync.stream());
 });
 
 

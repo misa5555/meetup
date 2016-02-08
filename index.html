@@ -9,100 +9,55 @@
 
         <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
 
-        <link rel="stylesheet" href="css/main.css">
-        <!-- <link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css"> -->
+        <link rel="stylesheet" href="css/index.css">
+        <link href="dist/css/libs.css" rel="stylesheet">
 
-        <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
-        <link href="dist/css/libs.css" rel="stylesheet">
-        <!-- datetime picker -->
-        <!-- <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script> -->
 
     </head>
     <body>
 
         <div class="main">
           <h2>Please Create your event</h2>
+          
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0"
+              aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            </div>
+          </div>
+
           <form autocomplete="on">
             <div class="control-group">
-              <label class="control-label" for="eventName">Event Name</label>
+              <label class="control-label" for="name">User Name</label>
               <div class="controls">
-                <input type="text" class="form-control" id="eventName" placeholder="Input event name" maxlength="30" required>
-                <span class="help-block eventName"></span>
+                <input type="text" class="form-control must" id="name" placeholder="Input user name" maxlength="30" required>
+                <span class="help-block name"></span>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="eventType">Event Type</label>
+              <label for="email">Email</label>
               <div class="controls">
-                <input list="eventTypeOptions" class="form-control"  placeholder="Input event type" id="eventType" required>
-                 <span class="help-block eventType"></span>
-                <datalist id="eventTypeOptions">
-                  <option value="Birthday Party">
-                  <option value="Wedding">
-                  <option value="Conference">
-                  <option value="Business Meeting">
-                </datalist>  
-              </div>  
-            </div>
-
-            <div class="form-group">
-              <label for="eventHost">Event host</label>
-              <div class="controls">
-                <input type="text" class="form-control" id="eventHost" placeholder="Individual or Organization" required>
+                <input type="text" class="form-control must" id="email" placeholder="Input Email Address" required>
                 <span class="help-block eventHost"></span>
               </div>  
             </div>
 
             <div class="form-group">
-              <label for="start_date">Start Date</label>
-              <div class='input-group date'>
-                <input type='text' class="form-control" id="start_date" required />
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-               </div>     
-                <span class="help-block start_date"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="end_date">End Date</label>
-              <div class='input-group date'>
-                <input type='text' class="form-control" id="end_date" required/>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-               </div>     
-                <span class="help-block end_date"></span>
-            </div>
-            
-            <div class="form-group">
-              <label for="guests">Guelst list </label>
-              <select id="guests" multiple="multiple" > 
-                <option value="Alice Wang">Alice Wang</option>
-                <option value="Benjamin Adam">Benjamin Adam</option>
-                <option value="Sindy Ferry">Sindy Ferry </option>
-              </select>
-              <span class="help-block guests"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="location">Location</label>
-              <span class="help-block location"></span>
-              <input id="pac-input" class="controls" type="text" placeholder="Input the location address" />
-              <div id="map" ></div>
-            </div>
-
-            <div class="form-group">
-              <label for="memo">Message(optional)</label>
-
+              <label for="password1">Password</label>
               <div class="controls">
-                <input type="text" class="form-control" id="memo" placeholder="Additional information of the event." />
-                <span class="help-block memo"></span>
+                <input type="password" class="form-control must" id="password1" placeholder="Password" required>
+                <span class="help-block password1"></span>
               </div>  
-            </div>  
+            </div>
+            <div class="form-group">
+              <label for="password2">Password</label>
+              <div class="controls">
+                <input type="password" class="form-control must" id="password2" placeholder="Password" required>
+                <span class="help-block password2"></span>
+              </div>  
+            </div>
 
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
 
@@ -112,7 +67,7 @@
                
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKEy7yP1XklENrYqswnoYUgRyIGFS8Bg0&libraries=places&callback=initAutocomplete"
          async defer></script>
-        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="dist/js/libs.js"></script>
     </body>
 </html>

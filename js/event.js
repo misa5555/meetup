@@ -1,59 +1,120 @@
 var eventsRef = new Firebase('https://sweltering-inferno-2083.firebaseio.com/')
 
-function checkValidation ( $el ) {
+
+function validate($el) {
+  var value = $el.val();
+  var id = $el.attr('id');
+  if (id === "guests"){
+    checkGuestPresence();
+  } else if (id === "pac-input"){
+    checkLocation(); 
+  } else {
+    checkInputValidation($el); 
+  }
+}
+
+function checkInputValidation ( $el ) {
+    var className = $el.attr('id');
     if($el[0].validationMessage !== ""){
       $el.parent().addClass('has-error');
-      var className = $el.attr('id');
-      $('span.help-block.' + className).text($el[0].validationMessage)
+      $('span.help-block.' + className).text($el[0].validationMessage);
+    } else {
+      $el.parent().removeClass('has-error');
+      $el.parent().addClass('has-success');
+      fillProgressBar();
+      $('span.help-block.' + className).text("");
     }   
+    
 }
 
 function checkGuestPresence(){
   var guestsArray = $('#guests').val();
   if(guestsArray === null ){
     $('.guests').text("Please invite at least one guest.");
+    $('.guests').addClass('has-error');
+  } else {
+    $('span.help-block.guests').removeClass('has-error');
+    $('#guests').addClass('has-success');
+    fillProgressBar();
+    $('span.help-block.guests').text("");
+
   }
 }
 
-function checkWholeValidations(){
-  var name = $('input#eventName').val();
-  var type = $('input#eventType').val();
-  var host = $('input#eventHost').val();
-  var startDate = $('input#start_date').val();
-  var endDate = $('input#end_date').val();
-  var guests = $('#guests').val();
-  var location = $('#pac-input').val();
-  var memo = $('input#memo').val();
-
-  checkValidation($('input#eventName'));
-  checkValidation($('input#eventType'));
-  checkValidation($('input#eventHost'));
-  checkValidation($('input#start_date'));
-  checkValidation($('input#end_date'));
-  checkGuestPresence();
-  checkLocation();
-
-}
 function checkLocation(){
   var address = $('#pac-input').val();
   if (address === ""){
     $('.location').text("Please fill out address.");
+    $('.location').addClass('has-error');
+  } else {
+    $('.location').removeClass('has-error');
+    $('.location').addClass('has-success');
+    fillProgressBar();
+    $('.location').text("");
   }
 }
-$(function () {
-  var dateNow = new Date();
-  hourNow = dateNow.getHours();
-  var OneHourLater = new Date(dateNow);
-  OneHourLater.setHours(hourNow + 1); 
-  $('#start_date').datetimepicker({ minDate: dateNow, defaultDate: dateNow , stepping: 30, sideBySide: true}); 
-  $('#end_date').datetimepicker({ minDate: dateNow, defaultDate: OneHourLater, stepping: 30, sideBySide: true }); 
-  $("#guests").select2();
 
+function fillProgressBar(){
+  var progress = parseInt($('.progress-bar').attr('aria-valuenow'));
+  progress = ($('.has-success').length / $('.must').length) * 100.0;
+  $('.progress-bar').attr('aria-valuenow', progress);
+  $('.progress-bar').css('width',   progress +'%');
+
+};
+
+function wholeValidation(){
+  $('.must').each( function(index){
+    validate($(this)); 
+  });
+}
+
+$(function () {
+  var timeNow = new Date();
+  hourNow = timeNow.getHours();
+  var oneHourLater = new Date();
+  oneHourLater.setHours(hourNow + 1); 
+  
+  $('input.must').on('blur', function(e){
+    var $el = $(e.currentTarget);
+    validate($el);
+  })
+
+  $("#guests").select2().on('select2-open', function(e){
+    var $el = $(e.currentTarget);
+    validate($el);
+  })
+
+
+  $('#start_date').datetimepicker({ defaultDate: timeNow, stepping: 30, sideBySide: true}); 
+  $('#end_date').datetimepicker({ minDate: timeNow, defaultDate: oneHourLater, stepping: 30, sideBySide: true }); 
+
+
+
+  $('#start_date').on('dp.change', function(){
+    var startTime = $('#start_date').val();
+    $('#end_date').val(startTime);
+  });
 
   $('button#submit').on('click', function(event){
-    checkWholeValidations();
-    eventsRef.push({ name: name, type: type, host: host, startDate: startDate, endDate: endDate, guests: guests, location: location, memo: memo})
-    // window.location.href = "/event_form"
+    event.preventDefault();
+    wholeValidation();
+    console.log("click");
+    if ($('.has-error').length === 0){
+      console.log("test");
+      var name = $('input#eventName').val();
+      var type = $('input#eventType').val();
+      var host = $('input#eventHost').val();
+      var startDate = $('input#start_date').val();
+      var endDate = $('input#end_date').val();
+      var guests = $('#guests').val();
+      var location = $('#pac-input').val();
+      var memo = $('input#memo').val();
+      eventsRef.push({ name: name, type: type, host: host, startDate: startDate, endDate: endDate, guests: guests, location: location, memo: memo})
+
+    window.location.href = "/"
+    } else {
+      alert("wrong information");
+    }
   });
 
 
